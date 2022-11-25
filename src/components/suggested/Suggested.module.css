@@ -1,0 +1,45 @@
+.suggested {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.suggestedItem {
+    flex: 1;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestedImg {
+    width: 100%;
+    object-fit: cover;
+    min-height: 250px;
+}
+
+.suggestedName {
+    font-weight: bold;
+}
+
+.suggestedCity {
+    font-weight: 500;
+}
+
+.suggestedPrice {
+    font-weight: 700;
+}
+
+.suggestedRating>button {
+    background-color: #003580;
+    color: white;
+    border: none;
+    padding: 3px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.suggestedRating>span {
+    font-style: 14px;
+}

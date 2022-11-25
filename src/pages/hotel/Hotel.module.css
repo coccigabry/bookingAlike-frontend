@@ -1,0 +1,158 @@
+.HotelCnt {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 30px;
+    overflow: hidden;
+}
+
+.HotelWrapper{
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+.bookNow{
+    position: absolute;
+    top: 10px;
+    right: 0;
+    border: none;
+    background-color: #0071c2;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.HotelTitle{
+    font-size: 24px;
+}
+
+.HotelAddress{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.HotelDistance{
+    color: #0071c2;
+    font-weight: 500;
+}
+
+.HotelPriceHighlight{
+    color: #008009;
+    font-weight: 500;
+}
+
+.HotelImages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.HotelImgWrapper {
+    width: 33%;
+}
+
+.HotelImg{
+    width: 100%;
+    object-fit: cover;
+}
+
+.HotelDetails {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.HotelDetailsText{
+    flex: 3;
+}
+
+.HotelDetailsTitle{
+
+}
+
+.HotelDetailsDescr{
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.HotelDetailsPrice{
+    flex: 1;
+    background-color: #ebf3ff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.HotelDetailsPrice>h1{
+    font-size: 18px;
+    color: #555;
+}
+
+.HotelDetailsPrice>span{
+    font-size: 14px;
+}
+
+.HotelDetailsPrice>h2{
+    font-weight: 300;
+}
+
+.HotelDetailsPrice>button{
+    border: none;
+    background-color: #0071c2;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}   
+
+.Slider{
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0006;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+}
+
+.SliderWrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SliderImg{
+    width: 80%;
+    height: 80vh;
+}
+
+.SliderClose{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: #febb02;
+    cursor: pointer;
+}
+
+.SliderArrow{
+    margin: 0 20px;
+    font-size: 50px;
+    color: #003580;
+    cursor: pointer;
+}
