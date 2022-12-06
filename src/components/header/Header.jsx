@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,6 +7,7 @@ import { DateRange } from 'react-date-range';
 import { format } from 'date-fns';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import { SearchContext } from "../../context/SearchContext";
 
 
 
@@ -37,17 +38,19 @@ export default function Header({ type }) {
                 [key]: action === "i" ? options[key] + 1 : options[key] - 1
             }
         })
-
     }
 
+    const { dispatch } = useContext(SearchContext);
+
     const handleSearch = () => {
-        navigate("/hotels", { state:{ destination, date, options } });
+        dispatch({ type: "NEW_SEARCH", payload: { destination, date, options } })
+        navigate("/hotels", { state: { destination, date, options } });
     }
 
 
     return (
         <div className={styles.header}>
-            <div className={type === "list" ? styles.headerContainerListMode : styles.headerContainer }>
+            <div className={type === "list" ? styles.headerContainerListMode : styles.headerContainer}>
 
                 <div className={styles.headerList}>
                     <div className={`${styles.headerListItem} && ${styles.active}`}>
@@ -72,7 +75,9 @@ export default function Header({ type }) {
                     </div>
                 </div>
 
-                { type !== "list" &&
+                {
+                    type !== "list" &&
+
                     <>
                         <h1 className={styles.headerTitle}>
                             A lifetime of discounts? It's Genius.
@@ -92,84 +97,89 @@ export default function Header({ type }) {
                                     onChange={e => setDestination(e.target.value)}
                                 />
                             </div>
-                            <div onClick={() => setOpenDate(!openDate)} className={styles.headerSearchItem}>
+                            <div className={styles.headerSearchItem}>
                                 <FontAwesomeIcon icon={faCalendarDays} className={styles.headerIcon} />
-                                <span className={styles.headerSearchText}>{`${format(
-                                    date[0].startDate, "dd/MM/yyyy"
-                                )} to ${format(
-                                    date[0].endDate, "dd/MM/yyyy"
-                                )}`}</span>
-                                {openDate && <DateRange
-                                    editableDateInputs={true}
-                                    onChange={item => setDate([item.selection])}
-                                    moveRangeOnFirstSelection={false}
-                                    ranges={date}
-                                    minDate={new Date()}
-                                    className={styles.date}
-                                />}
+                                <span onClick={() => setOpenDate(!openDate)} className={styles.headerSearchText}>
+                                    {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(date[0].endDate, "dd/MM/yyyy")}`}
+                                </span>
+                                {
+                                    openDate &&
+                                    <DateRange
+                                        editableDateInputs={true}
+                                        onChange={item => setDate([item.selection])}
+                                        moveRangeOnFirstSelection={false}
+                                        ranges={date}
+                                        minDate={new Date()}
+                                        className={styles.date}
+                                    />
+                                }
                             </div>
                             <div className={styles.headerSearchItem}>
                                 <FontAwesomeIcon icon={faPerson} className={styles.headerIcon} />
-                                <span onClick={() => setOpenOptions(!openOptions)} className={styles.headerSearchText}>{`${options.adults} adults - ${options.childrens} childrens - ${options.rooms} rooms`}</span>
-                                {openOptions && <div className={styles.options}>
-                                    <div className={styles.optionItem}>
-                                        <span className={styles.optionText}>Adults</span>
-                                        <div className={styles.optionCounter}>
-                                            <button
-                                                className={styles.optionCounterBtn}
-                                                onClick={() => counter("adults", "i")}
-                                            >
-                                                +
-                                            </button>
-                                            <span className={styles.optionCounterNumber}>{options.adults}</span>
-                                            <button
-                                                className={styles.optionCounterBtn}
-                                                onClick={() => counter("adults", "d")}
-                                                disabled={options.adults <= 1}
-                                            >
-                                                -
-                                            </button>
+                                <span onClick={() => setOpenOptions(!openOptions)} className={styles.headerSearchText}>
+                                    {`${options.adults} adults - ${options.childrens} childrens - ${options.rooms} rooms`}
+                                </span>
+                                {
+                                    openOptions && <div className={styles.options}>
+                                        <div className={styles.optionItem}>
+                                            <span className={styles.optionText}>Adults</span>
+                                            <div className={styles.optionCounter}>
+                                                <button
+                                                    className={styles.optionCounterBtn}
+                                                    onClick={() => counter("adults", "i")}
+                                                >
+                                                    +
+                                                </button>
+                                                <span className={styles.optionCounterNumber}>{options.adults}</span>
+                                                <button
+                                                    className={styles.optionCounterBtn}
+                                                    onClick={() => counter("adults", "d")}
+                                                    disabled={options.adults <= 1}
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className={styles.optionItem}>
+                                            <span className={styles.optionText}>Childrens</span>
+                                            <div className={styles.optionCounter}>
+                                                <button
+                                                    className={styles.optionCounterBtn}
+                                                    onClick={() => counter("childrens", "i")}
+                                                >
+                                                    +
+                                                </button>
+                                                <span className={styles.optionCounterNumber}>{options.childrens}</span>
+                                                <button
+                                                    className={styles.optionCounterBtn}
+                                                    onClick={() => counter("childrens", "d")}
+                                                    disabled={options.childrens <= 0}
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className={styles.optionItem}>
+                                            <span className={styles.optionText}>Rooms</span>
+                                            <div className={styles.optionCounter}>
+                                                <button
+                                                    className={styles.optionCounterBtn}
+                                                    onClick={() => counter("rooms", "i")}
+                                                >
+                                                    +
+                                                </button>
+                                                <span className={styles.optionCounterNumber}>{options.rooms}</span>
+                                                <button
+                                                    className={styles.optionCounterBtn}
+                                                    onClick={() => counter("rooms", "d")}
+                                                    disabled={options.rooms <= 1}
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className={styles.optionItem}>
-                                        <span className={styles.optionText}>Childrens</span>
-                                        <div className={styles.optionCounter}>
-                                            <button
-                                                className={styles.optionCounterBtn}
-                                                onClick={() => counter("childrens", "i")}
-                                            >
-                                                +
-                                            </button>
-                                            <span className={styles.optionCounterNumber}>{options.childrens}</span>
-                                            <button
-                                                className={styles.optionCounterBtn}
-                                                onClick={() => counter("childrens", "d")}
-                                                disabled={options.childrens <= 0}
-                                            >
-                                                -
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className={styles.optionItem}>
-                                        <span className={styles.optionText}>Rooms</span>
-                                        <div className={styles.optionCounter}>
-                                            <button
-                                                className={styles.optionCounterBtn}
-                                                onClick={() => counter("rooms", "i")}
-                                            >
-                                                +
-                                            </button>
-                                            <span className={styles.optionCounterNumber}>{options.rooms}</span>
-                                            <button
-                                                className={styles.optionCounterBtn}
-                                                onClick={() => counter("rooms", "d")}
-                                                disabled={options.rooms <= 1}
-                                            >
-                                                -
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>}
+                                }
                             </div>
                             <div className={styles.headerSearchItem}>
                                 <button className={styles.headerBtn} onClick={handleSearch}>Search</button>
